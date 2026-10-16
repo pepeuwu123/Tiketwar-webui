@@ -21,7 +21,9 @@ export default async function Page() {
       ? { cls: "bad", text: "Service unreachable — the API is not answering. The external watchdog should also be shouting about this." }
       : !health.scraper_alive
         ? { cls: "bad", text: `Scraper DEAD — service is up but the last heartbeat is ${health.heartbeat_age_seconds ?? "?"}s old. This is the silent failure mode.` }
-        : summary?.selectors_probably_broken
+        : health.last_poll_ok === false
+          ? { cls: "warn", text: "Scraper is RUNNING but the last poll failed — the loop is alive, the site is not. Check the errors below; this is not a dead container." }
+          : summary?.selectors_probably_broken
           ? { cls: "warn", text: "Most checks returned an unknown seat count — the selectors are probably rotted, not the tickets sold out." }
           : summary && summary.poll_errors > 0
             ? { cls: "warn", text: `${summary.poll_errors} scrape error(s) in the last ${summary.window_days} days.` }

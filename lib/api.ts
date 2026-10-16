@@ -5,6 +5,8 @@ export type Health = {
   status: string;
   db_ok: boolean;
   scraper_alive: boolean;
+  /** false = the loop is running but the last poll failed (rotted selectors, not death) */
+  last_poll_ok: boolean | null;
   heartbeat_age_seconds: number | null;
   timezone: string;
 };
