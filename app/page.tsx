@@ -1,3 +1,4 @@
+import { AutoRefresh } from "@/components/AutoRefresh";
 import { getEvents, getHealth, getSummary } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
@@ -35,6 +36,8 @@ export default async function Page() {
       <div className="sub">
         Availability monitor · times shown in Asia/Jakarta
         {health?.timezone && health.timezone !== "Asia/Jakarta" ? ` (service TZ: ${health.timezone})` : ""}
+        {" · "}
+        <AutoRefresh seconds={10} />
       </div>
 
       <div className={`banner ${banner.cls}`}>{banner.text}</div>
