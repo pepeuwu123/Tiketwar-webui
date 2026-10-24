@@ -22,6 +22,8 @@ export default async function Page() {
       ? { cls: "bad", text: "Service unreachable — the API is not answering. The external watchdog should also be shouting about this." }
       : !health.scraper_alive
         ? { cls: "bad", text: `Scraper DEAD — service is up but the last heartbeat is ${health.heartbeat_age_seconds ?? "?"}s old. This is the silent failure mode.` }
+        : health.consumer_alive === false
+        ? { cls: "bad", text: "Consumer DOWN — the scraper is running but its events are not reaching the database. Every number on this page is stale." }
         : health.last_poll_ok === false
           ? { cls: "warn", text: "Scraper is RUNNING but the last poll failed — the loop is alive, the site is not. Check the errors below; this is not a dead container." }
           : summary?.selectors_probably_broken

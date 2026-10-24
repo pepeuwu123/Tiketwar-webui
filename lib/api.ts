@@ -8,6 +8,10 @@ export type Health = {
   /** false = the loop is running but the last poll failed (rotted selectors, not death) */
   last_poll_ok: boolean | null;
   heartbeat_age_seconds: number | null;
+  /** false = events are no longer reaching the database; everything below is stale.
+   *  Optional: a service older than the consumer heartbeat does not send it. */
+  consumer_alive?: boolean;
+  consumer_heartbeat_age_seconds?: number | null;
   timezone: string;
 };
 
